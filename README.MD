@@ -61,7 +61,6 @@ See the example of usage below
 	Changed AP name in project file  Measured AP-39:b8  to  EMEA-SP-MDR-10PQR-WAP10
 	Changed AP name in project file  Measured AP-f0:eb  to  EMEA-SP-MDR-10PQR-WAP07
 	New project file is ready to use, filename is C:\Users\rpodoyni\Ekahau_tools\Floors.esx_modified.esx
-	
 	```
 
 
