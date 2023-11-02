@@ -22,19 +22,32 @@ Example of project data before using this tool:
 After using this tool (the project file is enriched with data from Meraki cloud and all AP names are fulfilled)   :
 ![title](./Screenshot_with_AP_names.png "Ekahau project enriched with AP names")
 
+## Installation
 
-***How to use the tool:***
+Installation is not required as soon as you have Python installed to your PC, just clone the repository and go to folder:
 
+Clone the repo
+```bash
+git clone https://github.com/consulttelecom/ekahau-meraki-ap-namer.git
+```
+Go to tool folder
+```bash
+cd ekahau-meraki-ap-namer
+```
 
-Copy survey project file in the tool file folder, then just start it from command line with two (or three) arguments:
+## Usage 
+
+Copy the Ekahau survey project file (*.esx) in the tool file folder, then just start the tool as Python script from command line with two (or three) arguments:
 
 * First argument is the Meraki API key
 * Second argument is the filename of Ekahau project file
 * Third argument is the organisation name (OPTIONAL, can be useful to filter out data from other organisations if your Meraki account has many of them)
 
+See the example of usage below
+
 	```
 	Example of tool output
-	(venv) PS C:\Users\rpodoyni\Ekahau_tools> python.exe .\Meraki_ap_names.py 6922*************************223344def Floors.esx My_organisation         
+	python .\Meraki_ap_names.py 6922*************************223344def Floors.esx My_organisation         
 	Getting organizations...
 	Done!
 	Getting AP serial numbers...
@@ -48,7 +61,7 @@ Copy survey project file in the tool file folder, then just start it from comman
 	Changed AP name in project file  Measured AP-39:b8  to  EMEA-SP-MDR-10PQR-WAP10
 	Changed AP name in project file  Measured AP-f0:eb  to  EMEA-SP-MDR-10PQR-WAP07
 	New project file is ready to use, filename is C:\Users\rpodoyni\Ekahau_tools\Floors.esx_modified.esx
-	(venv) PS C:\Users\rpodoyni\Ekahau_tools>
+	
 	```
 
 
@@ -68,9 +81,6 @@ The following list of standard Python libraries are used in this tool:
 
 All of these are standard libraries and do not require any installation efforts.
 
-### This tool is inspired by the following works of smart Wi-Fi guys:
-* https://github.com/francoisverges/semfio-ekahau
-* http://nerdian.ca/files/2020/06/EkahauFileStructure.pdf
 
 ### How to get in touch for support\questions\ideas etc.
 Collaboration via github tools is the preferred way, so open the issue, make pull request, fork, star etc.
