@@ -1,18 +1,14 @@
 import argparse
-from tabnanny import verbose
-
 import requests, time
 import shutil
 import zipfile
 import json
 import logging
 import pathlib
-import sys
 
-__author__ = "Roman Podoynitsyn"
-
-
-def get_data(url, api_key, query=[]):
+def get_data(url, api_key, query=None):
+    if query is None:
+        query = []
     headers = {'Content-type': 'application/json',
                'X-Cisco-Meraki-API-Key': api_key}
     try:
@@ -148,28 +144,28 @@ def add_ap_names(project_filename, bssid_dict, models, change_model=False, verbo
 
         # Load the accessPoints.json file into the accessPoints dictionary
         with myzip.open('accessPoints.json') as json_file:
-            accessPoints = json.load(json_file)
+            access_points = json.load(json_file)
 
         # Load the measuredRadios.json file into the simulatedRadios dictionary
         with myzip.open('measuredRadios.json') as json_file:
-            measuredRadios = json.load(json_file)
+            measured_radios = json.load(json_file)
 
         # Load the accessPointMeasurements.json file into the simulatedRadios dictionary
         with myzip.open('accessPointMeasurements.json') as json_file:
-            accessPointMeasurements = json.load(json_file)
+            access_point_measurements = json.load(json_file)
 
         for meraki_name in bssid_dict:
             bssid = bssid_dict[meraki_name]
-            for measurement in accessPointMeasurements['accessPointMeasurements']:
+            for measurement in access_point_measurements['accessPointMeasurements']:
                 if bssid[8:] in measurement['mac']:
                     # We found BSSID -> MAC
                     logging.debug(f'We found BSSID -> MAC {bssid} {measurement['mac']} {measurement['id']}')
-                    for measuredRadio in measuredRadios['measuredRadios']:
+                    for measuredRadio in measured_radios['measuredRadios']:
                         if measurement['id'] in measuredRadio['accessPointMeasurementIds']:
                             # We catch MAC -> Measurement ID and found Access_point_ID
                             logging.debug(f'We found MAC -> Measurement ID and found Access_point_ID {bssid} '
                                           f'{measurement['mac']} {measurement['id']} {measuredRadio['accessPointId']}')
-                            for ekahau_ap in accessPoints['accessPoints']:
+                            for ekahau_ap in access_points['accessPoints']:
                                 if ekahau_ap['id'] == measuredRadio['accessPointId']:
                                     ekahau_ap['name'] = meraki_name
                                     if verbose:
@@ -178,7 +174,7 @@ def add_ap_names(project_filename, bssid_dict, models, change_model=False, verbo
         if change_model:
             for ap_info in models.values():
                 for meraki_name, meraki_model in ap_info.items():
-                    for ekahau_ap in accessPoints['accessPoints']:
+                    for ekahau_ap in access_points['accessPoints']:
                         if ekahau_ap['mine']:
                             if ekahau_ap['name'] == meraki_name:
                                 ekahau_ap['model'] = meraki_model
@@ -190,12 +186,12 @@ def add_ap_names(project_filename, bssid_dict, models, change_model=False, verbo
     # Write the changes into the accessPoints.json File
     filepath = temp_folder_filepath / 'accessPoints.json'
     with filepath.open(mode= "w", encoding="utf-8") as file:
-        json.dump(accessPoints, file, indent=4)
+        json.dump(access_points, file, indent=4)
     logging.debug('New accessPoints.json file is written')
 
     # Create a new version of the Ekahau Project
     new_filename = pathlib.Path(str(project_filename) +'_modified')
-    shutil.make_archive(new_filename, 'zip', temp_folder_filepath)
+    shutil.make_archive(str(new_filename), 'zip', temp_folder_filepath)
     my_file = pathlib.Path(str(new_filename)+'.zip')
     my_file.rename(my_file.with_suffix('.esx'))
     #shutil.move(new_filename + '.zip', new_filename + '.esx')
