@@ -34,52 +34,49 @@ Go to tool folder
 ```bash
 cd ekahau-meraki-ap-namer
 ```
+And install python dependencies
+```bash
+pip install -r requirements.txt
+```
 
 ## Usage 
 
-Copy the Ekahau survey project file (*.esx) in the tool file folder, then just start the tool as Python script from command line with two (or three) arguments:
-
-* First argument is the Meraki API key
-* Second argument is the filename of Ekahau project file
-* Third argument is the organisation name (OPTIONAL, can be useful to filter out data from other organisations if your Meraki account has many of them)
-
-See the example of usage below
+Copy the Ekahau survey project file (*.esx) in the tool file folder, then just start the tool as Python script from command line with arguments:
 
 	```
-	Example of tool output
-	python .\Meraki_ap_names.py 6922*************************223344def Floors.esx My_organisation         
-	Getting organizations...
-	Done!
-	Getting AP serial numbers...
-	Done!
-	Getting AP BSSIDs...
-	Done!
-	Changed AP name in project file  Measured AP-39:d5  to  EMEA-SP-MDR-10PQR-WAP09
-	Changed AP name in project file  Measured AP-39:e6  to  EMEA-SP-MDR-10PQR-WAP09
-	Changed AP name in project file  Measured AP-39:f7  to  EMEA-SP-MDR-10PQR-WAP06
-	Changed AP name in project file  Measured AP-39:a4  to  EMEA-SP-MDR-10PQR-AP705
-	Changed AP name in project file  Measured AP-39:b8  to  EMEA-SP-MDR-10PQR-WAP10
-	Changed AP name in project file  Measured AP-f0:eb  to  EMEA-SP-MDR-10PQR-WAP07
-	New project file is ready to use, filename is C:\Users\rpodoyni\Ekahau_tools\Floors.esx_modified.esx
-	```
+	usage: Meraki_ap_names.py [-h] -t API_TOKEN -e File.esx [-o Meraki Organization Name] [-m] [-v]
 
+	Sync Ekahau AP details with Meraki informations
+
+	options:
+	  -h, --help            show this help message and exit
+	  -t API_TOKEN, --token API_TOKEN
+	                        Meraki user token API
+	  -e File.esx, --ekahau File.esx
+	                        Insert full name with extension of ekahau file, it need to be in the same folder as this script C:\Users\pedro.dalcolli\PycharmProjects\ekahau-meraki-ap-import
+	  -o Meraki Organization Name, --org Meraki Organization Name
+	                        Insert the name of Meraki Organization to get data just from one Organization
+	  -m, --model           Use this flag to change AP Models too
+	  -v, --verbose         Show process steps
+
+	```
+Just APT_TOKEN and Ekahau File name is mandatory, Organization, model and verbose are optional
+Some examples how to use:
+on this example variables are: 
+	token is: 1234token4321
+	ekahau file is: WPS
+	Organization is: Net Skilll
+```bash
+python.exe .\Meraki_ap_names.py -t 1234token4321 -e WPS.esx -v -o 'Net Skilll'
+```
+is possible to run with optinioal values too:
+```bash
+python.exe .\Meraki_ap_names.py -e WPS.esx -t 1234token4321
+```
 
 ## Tested with:
 
-* Ekahau PRO 10
-* Ekahau AI PRO 11
-
-## Dependencies:
-The following list of standard Python libraries are used in this tool:
-* shutil
-* zipfile
-* json
-* os
-* logging
-* sys
-
-All of these are standard libraries and do not require any installation efforts.
-
+* Ekahau AI PRO 11.6.1
 
 ### How to get in touch for support\questions\ideas etc.
 Collaboration via github tools is the preferred way, so open the issue, make pull request, fork, star etc.
